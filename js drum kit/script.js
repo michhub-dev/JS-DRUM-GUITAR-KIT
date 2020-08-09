@@ -12,7 +12,6 @@ function playDown(e) {
 
 function removeTransition(e){
 if(e.propertyName !== "transform") return;
- 
 e.target.classList.remove("playing");
 }
 const keys = Array.from(document.querySelectorAll(".key"));
@@ -20,87 +19,97 @@ keys.forEach(key => key.addEventListener("transitionend", removeTransition));
 
 window.addEventListener('keydown', playDown);
 
-  //key.loop = function() {
+//var keyLay = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 
-  /*  if( ! key.isLooping ) {
-      key.looper.classList.add('active');
-      key.audio.setAttribute('loop', 'loop');
-      key.isLooping = true;
-    }
-    else {
-      key.looper.classList.remove('active');
-      key.audio.removeAttribute('loop');
-      key.isLooping = false;
-    }
-    window.addEventListener('click', function(e)){
-    	const keplay = document.querySelector(`audio[data-key="${e.keyCode}"]`);
-    	if (!keplay) return;
-    	keplay.currentTime= 0;
+const kbd = [...document.querySelectorAll('kbd')];
+const note = [...document.querySelectorAll('span')];
+const noteList = [...document.querySelectorAll('.key')];
 
-    	keplay.play();
-		
-		keplay.classList.add("playing");
-
-    }*/
-//var gz = {};
-
-//const gz = Array.from(document.querySelectorAll(".key"));
-// The container div for the keys
-//gz.keysContainer = document.querySelector('#keyset');
-const divsContents = [...document.querySelectorAll("div")].map(e=>e.innerHTML);
-console.log(divsContents);
-key.element = document.querySelector('.key');
-
-divsContents.Key = function(){
-	
-	var key = this;
-	//key.container = document.getElementsById("keyset");
-	//key.container.classList.add('key-container');
-
-
-	
-	//gz.keysContainer.childNodes( key.container );
-
-
-	  // the audio element for this key
-	key.audio = document.querySelector('audio');
-
-  	// the loop button for this key
-	key.looper = document.querySelector('button.looper');
-
-	key.play = function(){
-
-		//const audio = document.querySelector('audio');
-		//const keyNotes = document.querySelector('.key');
-
-	   key.element.classList.add('playing');
-	   key.audio.currentTime = 0;
-	   key.audio.play();
-	}
-
-   	key.loop = function() {
-
-	    if( ! key.isLooping ) {
-	      key.looper.classList.add('active');
-	      key.audio.setAttribute('loop', 'loop');
-	      key.isLooping = true;
-	    }
-	    else {
-	      key.looper.classList.remove('active');
-	      key.audio.removeAttribute('loop');
-	      key.isLooping = false;
-	    }
-  	}
-
-  //key.element.addEventListener( 'touchstart', key.play );
-  key.element.addEventListener( 'click', key.play );
-
-  key.looper.addEventListener( 'touchdown', key.loop );
-  key.looper.addEventListener( 'click', key.loop );  
+let datakeys=[];
+var i= 0, len = 26;
+for(i; i < len; i++){
+	datakeys.push({
+		key: kbd[i].innerHTML,
+		name: note[i].innerHTML,
+		code: noteList[i].dataset.key
+	});
 }
 
-// call the binding method on all keys
-//gz.keyz = Array.from(document.querySelectorAll('.key'));
-//gz.keyz.forEach( key => gz.Key.call( key ) );
+console.log(datakeys);
 
-divsContents.forEach(key => divsContents.Key.call(key));
+Key = function(){
+	var key = this;
+
+	key.element = document.querySelector('.key');
+	key.audio = document.querySelector('audio');
+
+	key.play = function(){
+		key.element.classList.add('playing');
+		key.audio.currentTime = 0;
+		key.audio.play();
+	}
+
+	key.removeTransition = function(e){
+		if('transform' !== e.propertyName){
+			return;
+		}
+		key.target.classList.remove('playing');
+	}
+
+	key.element.addEventListener('transitioned', key.removeTransition);
+	key.element.addEventListener('touchstart', key.play);
+	key.element.addEventListener('click', key.play);
+
+}
+
+datakeys.forEach(key => Key.call( key ));
+
+
+
+
+
+//var asc;
+function keyPlay(e){
+	//num = parseInt(num);
+
+	const aud = document.querySelector(`audio[data-key="${datakeys.code}"]`);
+	console.log(aud);
+	const allkey = document.querySelector(`div[data-key="${datakeys.code}"]`);
+	console.log(allkey);
+	if(!aud)
+		return;
+		aud.currentTime = 0;
+		aud.play();
+		
+		allkey.classList.add("playing");
+		
+}
+
+
+noteList.forEach(key => key.addEventListener("click", keyPlay));
+
+const test = null;
+test.onclick = function(){
+	var	 a = document.querySelector("kbd").innerHTML;
+	//console.log(a);
+	return a;
+}
+
+
+switch(test.onclick()) {
+  case "A":
+	k1=0;
+	//window.addEventListener("click", keyPlay);
+	break;
+  case "B":
+	k2=1;
+	//alert("this is B");
+	break;
+  case "C":
+	k3=2;
+	//keyplay(k3);
+	break;
+  default:
+    //alert( "I don't know such values" );
+}
+

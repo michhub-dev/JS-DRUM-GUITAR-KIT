@@ -11,13 +11,12 @@
 		keyNotes.classList.add("playing");
 
 	
-};
-// key.play = function() {
+}; key.play = function() {
 
-  //  key.element.classList.add('playing');
-    //key.audio.currentTime = 0;
-    //key.audio.play();
-  //}
+    key.element.classList.add('playing');
+    key.audio.currentTime = 0;
+    key.audio.play();
+  }
 
   //key.loop = function() {
 
